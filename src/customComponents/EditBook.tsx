@@ -68,7 +68,7 @@ export default function EditBook() {
         ISBN: <input className="w-full border p-2" name="isbn" value={formData.isbn} onChange={handleChange} />
         Description:<textarea className="w-full border p-2" name="description" value={formData.description} onChange={handleChange} />
         Copies:<input className="w-full border p-2" type="number" name="copies" value={formData.copies} onChange={handleChange} />
-        <button className="bg-blue-600 text-white px-4 py-2 rounded" type="submit">Update Book</button>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer" type="submit">Update Book</button>
       </form>
     </div>
   );

@@ -7,6 +7,7 @@ export default function Navbar() {
   const location = useLocation();
 
   const navLinks = [
+    { path: "/", label: "Home" },
     { path: "/all-books", label: "All Books" },
     { path: "/add-book", label: "Add Book" },
     { path: "/borrow-summary", label: "Borrow Summary" },

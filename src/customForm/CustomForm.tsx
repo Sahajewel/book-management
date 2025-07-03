@@ -173,7 +173,7 @@ export default function CustomForm() {
           {/* Submit Button */}
           <div className="text-center">
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md cursor-pointer"
               type="submit"
             >
               📥 Submit Book

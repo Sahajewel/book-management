@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  //   TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -20,102 +19,119 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+
 export function BookTable() {
   const { data, isLoading, refetch } = useGetBooksQuery(undefined);
   const [deleteBook] = useDeleteBookMutation();
   const books = data?.data || [];
-  console.log("data", data);
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-10">
-        <Loader2 className={cn("h-10 w-10 animate-spin text-blue-600")} />
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className={cn("h-12 w-12 animate-spin text-blue-600")} />
       </div>
     );
   }
-  const handleDelete = async (id: string) => {
-    const confirm = window.confirm("Do you want to delete this book?");
-    if (!confirm) return;
-    try {
-      await deleteBook(id).unwrap();
-      toast.success("The book has been deleted");
-      refetch();
-    } catch (err) {
-      console.error("Deleted Failed", err);
-      toast.error("The book can't be deleted");
-    }
-  };
+
   return (
-    <div>
-      <h1 className="text-center my-10 text-4xl lg:text-6xl font-bold">
-        List of all Books
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 className="text-center my-12 text-4xl font-extrabold text-gray-900 tracking-tight">
+        Library Book Collection
       </h1>
-      <Table>
-        <TableHeader>
+
+      <Table className="shadow-lg rounded-lg overflow-hidden border border-gray-200">
+        <TableHeader className="bg-gray-100">
           <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>Author</TableHead>
-            <TableHead>Genre</TableHead>
-            <TableHead>ISBN</TableHead>
-            <TableHead>Copies</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Actions</TableHead>
+            {[
+              "Title",
+              "Author",
+              "Genre",
+              "ISBN",
+              "Copies",
+              "Status",
+              "Actions",
+            ].map((header) => (
+              <TableHead
+                key={header}
+                className="text-left text-gray-700 uppercase tracking-wide px-4 py-3 select-none"
+              >
+                {header}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
+
         <TableBody>
           {books.map((book) => (
-            <TableRow key={book._id}>
-              <TableCell className="font-medium">{book.title}</TableCell>
-              <TableCell>{book.author}</TableCell>
-              <TableCell>{book.genre}</TableCell>
-              <TableCell>{book.isbn}</TableCell>
-              <TableCell>{book.copies}</TableCell>
-              <TableCell>
+            <TableRow
+              key={book._id}
+              className="hover:bg-gray-50 transition-colors duration-200"
+            >
+              <TableCell className="font-semibold px-4 py-3 max-w-xs truncate" title={book.title}>
+                {book.title}
+              </TableCell>
+              <TableCell className="px-4 py-3">{book.author}</TableCell>
+              <TableCell className="px-4 py-3">{book.genre}</TableCell>
+              <TableCell className="px-4 py-3">{book.isbn}</TableCell>
+              <TableCell className="px-4 py-3 text-center">{book.copies}</TableCell>
+              <TableCell className="px-4 py-3 text-center">
                 {book.available ? (
-                  <span className="text-green-600 font-semibold">
+                  <span className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-semibold">
                     Available
                   </span>
                 ) : (
-                  <span className="text-red-600 font-semibold">
+                  <span className="inline-block bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm font-semibold">
                     Unavailable
                   </span>
                 )}
               </TableCell>
-              <TableCell className="space-x-2">
-                {/* Edit Button */}
+
+              <TableCell className="px-4 py-3 space-x-3 whitespace-nowrap flex items-center justify-center">
                 <Link to={`/edit-book/${book._id}`}>
-                  <Button variant="ghost" size="icon" className="text-blue-600 cursor-pointer">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-blue-600 hover:bg-blue-50 cursor-pointer"
+                    aria-label={`Edit ${book.title}`}
+                  >
                     Edit
                   </Button>
                 </Link>
 
-                {/* Delete Button + DialogTrigger */}
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button 
-                      variant="ghost"
-                      size="icon"
-                      className="text-red-600 cursor-pointer"
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-red-600 hover:bg-red-50 cursor-pointer"
+                      aria-label={`Delete ${book.title}`}
                     >
                       Delete
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+
+                  <DialogContent className="max-w-md">
                     <DialogHeader>
-                      <DialogTitle>Do you want to delete?</DialogTitle>
+                      <DialogTitle>Confirm Deletion</DialogTitle>
                       <DialogDescription>
-                        Are you sure? <strong>{book.title}</strong>"Do you want to delete this book? This action cannot be undone."
+                        Are you sure you want to delete <strong>{book.title}</strong>? This action cannot be undone.
                       </DialogDescription>
                     </DialogHeader>
-                    <DialogFooter className="flex justify-end space-x-2 ">
-                      
+                    <DialogFooter className="flex justify-end space-x-2">
+                     
                       <Button className="cursor-pointer"
                         variant="destructive"
+                        size="sm"
                         onClick={async () => {
-                          await deleteBook(book._id).unwrap();
-                          toast.success("The book has been deleted");
-                          refetch();
+                          try {
+                            await deleteBook(book._id).unwrap();
+                            toast.success("Book deleted successfully");
+                            refetch();
+                          } catch {
+                            toast.error("Failed to delete book");
+                          }
                         }}
                       >
                         Delete
@@ -124,12 +140,16 @@ export function BookTable() {
                   </DialogContent>
                 </Dialog>
 
-                {/* Borrow Button */}
-              <Link to={`/borrow/${book._id}`}>
-                <Button variant="ghost" size="icon" className="text-green-600 ml-2 cursor-pointer">
-                  Borrow
-                </Button>
-              </Link>
+                <Link to={`/borrow/${book._id}`}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-green-600 hover:bg-green-50 cursor-pointer"
+                    aria-label={`Borrow ${book.title}`}
+                  >
+                    Borrow
+                  </Button>
+                </Link>
               </TableCell>
             </TableRow>
           ))}

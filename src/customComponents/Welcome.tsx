@@ -13,7 +13,7 @@ export default function Welcome() {
           Manage your library with ease — add, edit, borrow books.
         </p>
         <Link to="/all-books">
-          <Button className="text-white bg-indigo-600 hover:bg-indigo-700 px-6 py-2 text-lg">
+          <Button className="text-white bg-indigo-600 hover:bg-indigo-700 px-6 py-2 text-lg cursor-pointer">
             View All Books
           </Button>
         </Link>
