@@ -1,40 +1,62 @@
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
+  const location = useLocation();
+
+  const navLinks = [
+    { path: "/all-books", label: "All Books" },
+    { path: "/add-book", label: "Add Book" },
+    { path: "/borrow-summary", label: "Borrow Summary" },
+  ];
+
   return (
-    <nav className="flex items-center justify-between px-4 py-3 shadow-md bg-white sticky top-0 z-50">
-      <Link to="/" className="text-xl font-bold text-blue-600">📚 Book Manager</Link>
+    <nav className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <Link to="/" className="text-2xl font-bold tracking-wide">
+          📚 Book Manager
+        </Link>
 
-      <div className="hidden md:flex gap-4">
-        <Link to="/all-books" className="hover:underline">
-          All Books
-        </Link>
-        <Link to="/add-book" className="hover:underline">
-          Add Book
-        </Link>
-        <Link to="/borrow-summary" className="hover:underline">
-          Borrow Summary
-        </Link>
-      </div>
+        {/* Desktop Nav */}
+        <div className="hidden md:flex gap-6 items-center">
+          {navLinks.map(({ path, label }) => (
+            <Link
+              key={path}
+              to={path}
+              className={`transition duration-200 hover:underline ${
+                location.pathname === path ? "font-semibold underline" : ""
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
 
-      <div className="md:hidden">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <div className="flex flex-col gap-4 mt-4">
-              <Link to="/books">All Books</Link>
-              <Link to="/create-book">Add Book</Link>
-              <Link to="/borrow-summary">Borrow Summary</Link>
-            </div>
-          </SheetContent>
-        </Sheet>
+        {/* Mobile Nav */}
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" className="text-white">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="bg-white p-6">
+              <div className="flex flex-col gap-4">
+                {navLinks.map(({ path, label }) => (
+                  <Link
+                    key={path}
+                    to={path}
+                    className="text-gray-700 hover:text-blue-600 text-lg font-medium"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </nav>
   );

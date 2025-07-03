@@ -28,8 +28,16 @@ export const baseApi = createApi({
                 url: `/books/${id}`,
                 method: "DELETE"
             })
+        }),
+        createBook:builder.mutation({
+            query:(bookData)=>({
+                url: "/create-book",
+                method: "POST",
+                body: bookData
+            }),
+            invalidatesTags: ["Book"]
         })
     })
 });
-export const { useGetBooksQuery, useGetSingleBookQuery, useUpdateBookMutation, useDeleteBookMutation } = baseApi
+export const { useGetBooksQuery, useGetSingleBookQuery, useUpdateBookMutation, useDeleteBookMutation, useCreateBookMutation } = baseApi
 

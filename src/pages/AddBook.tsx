@@ -1,9 +1,10 @@
+import CustomForm from "@/customForm/customForm";
 
 
 export default function AddBook() {
   return (
     <div>
-      add Book
+     <CustomForm></CustomForm>
     </div>
   )
 }
