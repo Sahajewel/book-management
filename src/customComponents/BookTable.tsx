@@ -125,9 +125,11 @@ export function BookTable() {
                 </Dialog>
 
                 {/* Borrow Button */}
+              <Link to={`/borrow/${book._id}`}>
                 <Button variant="ghost" size="icon" className="text-green-600 ml-2 cursor-pointer">
                   Borrow
                 </Button>
+              </Link>
               </TableCell>
             </TableRow>
           ))}
