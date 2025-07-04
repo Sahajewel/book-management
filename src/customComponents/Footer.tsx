@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-800 text-gray-300 py-6 mt-20">
@@ -7,12 +9,12 @@ export default function Footer() {
         </p>
         <p className="text-sm mt-2 md:mt-0">
           Made  by{"  "}
-          <a
-            href="https://sahajewel.com"
+          <Link
+            to="https://sahajewel.com"
             className="text-blue-400 hover:underline"
           >
             Saha Jewel
-          </a>
+          </Link>
         </p>
       </div>
     </footer>

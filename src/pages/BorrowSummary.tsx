@@ -3,7 +3,7 @@ import { useGetBorrowSummaryQuery } from "@/redux/baseApi";
 import { Loader2 } from "lucide-react";
 
 export default function BorrowSummary() {
-  const { data, isLoading, isError } = useGetBorrowSummaryQuery(undefined);
+  const { data, isLoading, isError } = useGetBorrowSummaryQuery(undefined,{ refetchOnMountOrArgChange: true,});
 
 
   if (isLoading) {
@@ -14,10 +14,7 @@ export default function BorrowSummary() {
     );
   }
 
- if (isError  ) {
-  return <div className="text-red-500">Failed to load summary</div>;
-}
- if ( !data ) {
+ if (isError || !data || !Array.isArray(data?.data)) {
   return <div className="text-red-500">Failed to load summary</div>;
 }
 
