@@ -52,33 +52,54 @@ export default function CustomForm() {
         📚 Add New Book
       </h1>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Title & Author */}
           <div className="flex flex-col md:flex-row gap-6">
             <FormField
               control={form.control}
               name="title"
-              render={({ field }) => (
+              rules={{ required: "Tilte is required" }}
+              render={({ field, fieldState }) => (
                 <FormItem className="w-full">
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter book title" {...field} />
+                    <Input
+                      placeholder="Enter book title"
+                      {...field}
+                      className={`border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                        fieldState.invalid ? "border-red-500" : ""
+                      }`}
+                    />
                   </FormControl>
+                  {fieldState.error && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {fieldState.error.message}
+                    </p>
+                  )}
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
               name="author"
-              render={({ field }) => (
+              rules={{ required: "Author is required" }}
+              render={({ field, fieldState }) => (
                 <FormItem className="w-full">
                   <FormLabel>Author</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter author name" {...field} />
+                    <Input
+                      placeholder="Enter author name"
+                      {...field}
+                      className={`border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                        fieldState.invalid ? "border-red-500" : ""
+                      }`}
+                    />
                   </FormControl>
+                  {fieldState.error && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {fieldState.error.message}
+                    </p>
+                  )}
                 </FormItem>
               )}
             />
@@ -89,13 +110,16 @@ export default function CustomForm() {
             <FormField
               control={form.control}
               name="genre"
-              render={({ field }) => (
+              rules={{ required: "Genre is required" }}
+              render={({ field, fieldState }) => (
                 <FormItem className="w-full">
                   <FormLabel>Genre</FormLabel>
                   <FormControl>
                     <select
                       {...field}
-                      className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
+                      className={`border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                        fieldState.invalid ? "border-red-500" : ""
+                      }`}
                     >
                       <option value="">Select Genre</option>
                       <option value="fiction">Fiction</option>
@@ -106,18 +130,35 @@ export default function CustomForm() {
                       <option value="fantasy">Fantasy</option>
                     </select>
                   </FormControl>
+                  {fieldState.error && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {fieldState.error.message}
+                    </p>
+                  )}
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
               name="isbn"
-              render={({ field }) => (
+              rules={{ required: "ISBN is required" }}
+              render={({ field, fieldState }) => (
                 <FormItem className="w-full">
                   <FormLabel>ISBN</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter ISBN" {...field} />
+                    <Input
+                      placeholder="Enter ISBN"
+                      {...field}
+                      className={`border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                        fieldState.invalid ? "border-red-500" : ""
+                      }`}
+                    />
                   </FormControl>
+                  {fieldState.error && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {fieldState.error.message}
+                    </p>
+                  )}
                 </FormItem>
               )}
             />
@@ -140,12 +181,25 @@ export default function CustomForm() {
             <FormField
               control={form.control}
               name="copies"
-              render={({ field }) => (
+              rules={{ required: "Copies is required" }}
+              render={({ field, fieldState }) => (
                 <FormItem className="w-full">
                   <FormLabel>Copies</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="Number of copies" {...field} />
+                    <Input
+                      type="number"
+                      placeholder="Number of copies"
+                      {...field}
+                      className={`border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                        fieldState.invalid ? "border-red-500" : ""
+                      }`}
+                    />
                   </FormControl>
+                  {fieldState.error && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {fieldState.error.message}
+                    </p>
+                  )}
                 </FormItem>
               )}
             />

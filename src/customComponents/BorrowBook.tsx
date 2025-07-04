@@ -11,7 +11,9 @@ import { toast } from "sonner";
 export default function BorrowBook() {
   const { bookId } = useParams();
   const navigate = useNavigate();
-  const { data: bookData, isLoading } = useGetSingleBookQuery(bookId);
+  const { data: bookData, isLoading } = useGetSingleBookQuery(bookId ?? "",{
+    refetchOnMountOrArgChange: true
+  });
   const form = useForm<Iborrow>();
   const [createBorrow] = useCreateBorrowMutation();
 
@@ -29,9 +31,11 @@ export default function BorrowBook() {
       toast.success("Book successfully borrowed");
       form.reset();
       navigate("/borrow-summary");
-    } catch (error: any) {
+    } catch (error) {
       toast.error("Failed to borrow book");
+      console.log(error)
     }
+    form.reset();
   };
 
    if (isLoading) {
@@ -53,7 +57,8 @@ export default function BorrowBook() {
           <FormField
             control={form.control}
             name="quantity"
-            render={({ field }) => (
+            rules={{required: "Quantity is required"}}
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel className="font-medium text-gray-700">Quantity</FormLabel>
                 <FormControl>
@@ -63,16 +68,22 @@ export default function BorrowBook() {
                     max={maxQuantity}
                     placeholder={`Max available: ${maxQuantity}`}
                     {...field}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className={`border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+            fieldState.invalid ? "border-red-500" : ""
+          }`}
                   />
                 </FormControl>
+                {fieldState.error && (
+                   <p className="text-red-600 text-sm mt-1">{fieldState.error.message}</p>
+                )}
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="dueDate"
-            render={({ field }) => (
+            rules={{required: "Date is required"}}
+            render={({ field , fieldState}) => (
               <FormItem>
                 <FormLabel className="font-medium text-gray-700">Due Date</FormLabel>
                 <FormControl>
@@ -80,9 +91,14 @@ export default function BorrowBook() {
                     type="date"
                     placeholder="Select due date"
                     {...field}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className={`border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${fieldState.invalid ? "border-red-500" : " "}`}
                   />
                 </FormControl>
+                {
+                  fieldState.error && (
+                    <p className="text-red-600 text-sm mt-1">{fieldState.error.message}</p>
+                  )
+                }
               </FormItem>
             )}
           />

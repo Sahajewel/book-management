@@ -1,18 +1,10 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useGetBorrowSummaryQuery } from "@/redux/baseApi";
 import { Loader2 } from "lucide-react";
 
 export default function BorrowSummary() {
-  const { data, isLoading } = useGetBorrowSummaryQuery(undefined);
-  const summary = data?.data || [];
+  const { data, isLoading, isError } = useGetBorrowSummaryQuery(undefined);
+
 
   if (isLoading) {
     return (
@@ -21,6 +13,19 @@ export default function BorrowSummary() {
       </div>
     );
   }
+
+ if (isError  ) {
+  return <div className="text-red-500">Failed to load summary</div>;
+}
+ if ( !data ) {
+  return <div className="text-red-500">Failed to load summary</div>;
+}
+
+
+
+  const summary = data.data;
+
+ 
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -39,9 +44,9 @@ export default function BorrowSummary() {
         <TableBody>
           {summary.map((item) => (
             <TableRow key={item._id}>
-              <TableCell>{item?.book?.title || "Unknown"}</TableCell>
-              <TableCell>{item?.book?.isbn || "N/A"}</TableCell>
-              <TableCell className="text-right">{item?.quantity}</TableCell>
+              <TableCell>{item.book?.title || "Unknown"}</TableCell>
+              <TableCell>{item.book?.isbn || "N/A"}</TableCell>
+              <TableCell className="text-right">{item.quantity}</TableCell>
             </TableRow>
           ))}
         </TableBody>

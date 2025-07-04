@@ -1,4 +1,10 @@
 export interface Iborrow{
-    quantity: number,
-    dueDate: Date
+    _id: string;
+    quantity: number;
+     dueDate: string;
+    book:{
+        title: string;
+        isbn: string;
+    },
+   
 }

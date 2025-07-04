@@ -126,7 +126,7 @@ export function BookTable() {
                         size="sm"
                         onClick={async () => {
                           try {
-                            await deleteBook(book._id).unwrap();
+                            await deleteBook(book._id?? "").unwrap();
                             toast.success("Book deleted successfully");
                             refetch();
                           } catch {
