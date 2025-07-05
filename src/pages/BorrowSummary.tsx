@@ -1,10 +1,19 @@
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useGetBorrowSummaryQuery } from "@/redux/baseApi";
 import { Loader2 } from "lucide-react";
 
 export default function BorrowSummary() {
-  const { data, isLoading, isError } = useGetBorrowSummaryQuery(undefined,{ refetchOnMountOrArgChange: true,});
-
+  const { data, isLoading, isError } = useGetBorrowSummaryQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   if (isLoading) {
     return (
@@ -14,15 +23,12 @@ export default function BorrowSummary() {
     );
   }
 
- if (isError || !data ) {
-  return <div className="text-red-500">Failed to load summary</div>;
-}
+  if (isError || !data) {
+    return <div className="text-red-500">Failed to load summary</div>;
+  }
 
-
-
-  const summary = data.data;
-
- 
+  // ✅ Filter out null or deleted books
+  const summary = data.data.filter((item) => item.book);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -35,14 +41,16 @@ export default function BorrowSummary() {
           <TableRow>
             <TableHead className="font-semibold">Title</TableHead>
             <TableHead className="font-semibold">ISBN</TableHead>
-            <TableHead className="text-right font-semibold">Total Quantity</TableHead>
+            <TableHead className="text-right font-semibold">
+              Total Quantity
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {summary.map((item) => (
             <TableRow key={item._id}>
-              <TableCell>{item.book?.title || "Unknown"}</TableCell>
-              <TableCell>{item.book?.isbn || "N/A"}</TableCell>
+              <TableCell>{item.book.title}</TableCell>
+              <TableCell>{item.book.isbn}</TableCell>
               <TableCell className="text-right">{item.quantity}</TableCell>
             </TableRow>
           ))}
