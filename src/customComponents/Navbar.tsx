@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -5,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const location = useLocation();
+  const [open, setOpen] = useState(false); 
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -37,7 +39,7 @@ export default function Navbar() {
 
         {/* Mobile Nav */}
         <div className="md:hidden">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" className="text-white">
                 <Menu className="h-6 w-6" />
@@ -49,6 +51,7 @@ export default function Navbar() {
                   <Link
                     key={path}
                     to={path}
+                    onClick={() => setOpen(false)} 
                     className="text-gray-700 hover:text-blue-600 text-lg font-medium"
                   >
                     {label}
