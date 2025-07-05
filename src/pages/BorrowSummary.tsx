@@ -14,7 +14,7 @@ export default function BorrowSummary() {
     );
   }
 
- if (isError || !data || !Array.isArray(data?.data)) {
+ if (isError || !data ) {
   return <div className="text-red-500">Failed to load summary</div>;
 }
 
