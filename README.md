@@ -47,7 +47,7 @@ All backend interactions are handled using **Redux Toolkit Query (RTK Query)**. 
 ## 🛠️ Available Scripts
 
 ```bash
-git clone 
+git clone https://github.com/Sahajewel/book-management.git
 # Install dependencies
 npm install
 
