@@ -4,7 +4,7 @@ This is the **client-side application** for the Minimal Library Management Syste
 
 ## 🚀 Live Site
 
-🌐 [Visit Frontend](https://your-frontend-deployment-link.com)
+🌐 [Visit Frontend](https://book-management-eta-pearl.vercel.app)
 
 ---
 
